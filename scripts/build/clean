@@ -159,7 +159,7 @@ if [ "${RM_CHROOT}" = "true" ]; then
 
 	rm -rf chroot chroot.tmp
 
-	rm -f chroot.packages.live chroot.packages.install
+	rm -f chroot.packages.live chroot.packages.install chroot.packages.all.info
 	rm -f chroot.files
 
 	rm -f "$(Installed_tmp_packages_file)"

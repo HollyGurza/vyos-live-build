@@ -48,6 +48,12 @@ for _PASS in install live; do
 	fi
 done
 
+# save information about all installed packages and source repos
+Chroot chroot "dpkg-query -W" | while read PACKAGE; do
+  Chroot chroot "apt-cache policy ${PACKAGE}"  | sed -n '/\*\*\*/,$p' | grep -P 'http:|https:' -m 1 | awk -v pkg="${PACKAGE}" '{print $2" "$3" "pkg}' >> chroot.packages.all.info
+done
+
+
 lb chroot_includes_after_packages "${@}"
 lb chroot_hooks "${@}"
 lb chroot_hacks "${@}"

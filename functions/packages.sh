@@ -60,6 +60,13 @@ Install_packages ()
 			Chroot chroot "aptitude install --without-recommends ${APTITUDE_OPTIONS} ${_LB_PACKAGES}"
 			;;
 	esac
+
+  # save information about all temporary installed packages and source repos
+	for PACKAGE in ${_LB_PACKAGES}; do
+		Chroot chroot "apt-cache policy ${PACKAGE}"  | sed -n '/\*\*\*/,$p' | grep -P 'http:|https:' -m 1 | awk -v pkg="${PACKAGE}" '{print $2" "$3" "pkg}' >> chroot.packages.all.info
+
+	done
+
 	unset _LB_PACKAGES # Can clear this now
 }
 
